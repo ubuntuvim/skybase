@@ -51,6 +51,14 @@ public class AdapterMappingManager {
 	}
 	
 	/**
+	 * 返回所有的适配器配置
+	 * @return
+	 */
+	public Map<String, AdapterMapping> getAllAdapterMapping() {
+		return this.adapterMappings;
+	}
+	
+	/**
 	 * 读取Adapter配置，并设置到AdapterMapping map中
 	 * @param cfgFile Adapter配置
 	 */

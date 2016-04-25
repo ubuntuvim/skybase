@@ -1,7 +1,10 @@
 package com.skybase.framework.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,7 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.skybase.framework.container.ClassPathXmlApplicationContext;
+import com.skybase.framework.adapter.Adapter;
+import com.skybase.framework.adapter.AdapterManager;
+import com.skybase.framework.adapter.AdapterMapping;
+import com.skybase.framework.adapter.AdapterMappingManager;
+import com.skybase.framework.authority.CheckRequestAuthorization;
+import com.skybase.framework.warpper.HttpRequestWarpper;
 import com.skybase.util.LogUtil;
 import com.skybase.util.SkyBaseUtils;
 
@@ -19,7 +27,8 @@ import com.skybase.util.SkyBaseUtils;
 public class JsonInterruptorAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, Object> container = null;
+//	private Map<String, Object> container = null;
+	private String[] cfgFiles = null;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +41,40 @@ public class JsonInterruptorAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		LogUtil.info("========> 处理json请求 <========");
+		Map<String, Object> retJson = new HashMap<String, Object>(); 
+		PrintWriter out = response.getWriter();
+		//请求权限判断
+		CheckRequestAuthorization cra = new CheckRequestAuthorization();
+		if (!cra.check(request)) {
+			retJson.put("flag", false);
+			retJson.put("msg", "此请求无权限。");
+			retJson.put("code", "403");
+			
+			out.print(SkyBaseUtils.mapToJson(retJson));
+		}
+		HttpRequestWarpper hrw = new HttpRequestWarpper();
+		//  TODO
+		hrw.requestWarpper(request);
+		
+		try {
+			AdapterMappingManager amm = new AdapterMappingManager(this.cfgFiles);
+			Map<String, AdapterMapping> adms = amm.getAllAdapterMapping();
+			for (Entry<String, AdapterMapping> entry : adms.entrySet()) {
+//				String key = entry.getKey();  //key与className是同一个东西
+				AdapterMapping am = entry.getValue();
+				String className = am.getAdapterClassName();
+//				String adapterName = am.getAdapterName();
+				//  每个请求都创建一个实例？还是都使用一个实例？
+				Adapter adapter = AdapterManager.createAdapter(className);
+				adapter.adapter(request, response);
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("读取adapter配置文件出错，请确认配置的文件的路径！");
+		}
+		
+		
 	}
 	
 	@Override
@@ -40,17 +82,7 @@ public class JsonInterruptorAction extends HttpServlet {
 		//  读取action的配置信息
 		String adapterConfigs = config.getInitParameter("adapterConfigFiles");
 		SkyBaseUtils.checkConfigFiles(adapterConfigs, "adapter");
-
-		try {
-			//  先去除分割配置文件间的空格（如果有）再转成数组
-			String[] cfgArr = adapterConfigs.replaceAll("\\s*", "").split(",");
-			ClassPathXmlApplicationContext cxt = new ClassPathXmlApplicationContext(cfgArr);
-			this.container = cxt.initContainer();
-//			new AdapterMappingManager(adapterConfigs.replaceAll("\\s*", "").split(",")).instanceAdapter();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		LogUtil.info("####### 适配器加载完成  #########");
+		this.cfgFiles = adapterConfigs.replaceAll("\\s*", "").split(",");
 	}
 
 }
