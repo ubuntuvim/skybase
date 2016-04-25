@@ -15,7 +15,8 @@ import com.skybase.framework.action.Action;
 import com.skybase.framework.action.ActionManager;
 import com.skybase.framework.action.ActionMapping;
 import com.skybase.framework.action.ActionMappingManager;
-import com.skybase.framework.adapter.AdapterMappingManager;
+import com.skybase.util.LogUtil;
+import com.skybase.util.SkyBaseUtils;
 
 /**
  * action的总控制器，所有以".action"结尾的请求都会被这个servlet拦截，并进入到框架中处理
@@ -80,29 +81,15 @@ public class ActionServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		//  读取action的配置信息
 		String configFiles = config.getInitParameter("actionConfigFiles");
-		checkConfigFiles(configFiles, "action");
-		String adapterConfigs = config.getInitParameter("adapterConfigFiles");
-		checkConfigFiles(adapterConfigs, "adapter");
+		SkyBaseUtils.checkConfigFiles(configFiles, "action");
 
 		try {
 			//  先去除分割配置文件间的空格（如果有）
 			this.amm = new ActionMappingManager(configFiles.replaceAll("\\s*", "").split(","));
-			//  实例化所有配置的adapter
-			new AdapterMappingManager(adapterConfigs.replaceAll("\\s*", "").split(",")).instanceAdapter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("================ 配置加载完成 ===================");
-	}
-
-	private void checkConfigFiles(String configFiles, String msg) {
-		if (StringUtils.isBlank(configFiles)) {
-			try {
-				throw new Exception("请在[com.skybase.framework.servlet.ActionServlet]中配置"+msg+"配置文件！");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		LogUtil.info("####### Action配置加载完成  #########");
 	}
 	
 }
