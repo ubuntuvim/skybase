@@ -11,7 +11,39 @@
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
+		<!--  Gson: Java to Json conversion -->
+	    <dependency>
+	      <groupId>com.google.code.gson</groupId>
+	      <artifactId>gson</artifactId>
+	      <version>2.6.2</version>
+	      <scope>compile</scope>
+	    </dependency>
+	    
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160212</version>
+		</dependency>
+				
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
 
+		
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -25,53 +57,25 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- 日志设置 log4j slf4j -->
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.0-beta9</version>
-		</dependency>
-
-		<!-- ERROR Root contains an invalid element or attribute "AppenderRef" 
-			This is an error for 2.0-beta8, it is not present on 2.0-beta9 -->
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.0-beta9</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
+			<version>1.7.12</version>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-jcl</artifactId>
-			<version>2.0-rc1</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.12</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.0-rc1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
-		</dependency>
-
-
-		<!-- json-lib是需要区分jdk版本的，pom.xml中的配置应加上<classifier>标签，如用jdk15： -->
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>2.4</version>
-			<classifier>jdk15</classifier>
-		</dependency>
+				
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -92,14 +96,6 @@
 			<artifactId>plexus-compiler-javac</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-
-
-		<!-- maven工程 仓库没有的jar使用方法 <dependency> <groupId>cryptix</groupId> <artifactId>cryptix-jce-api</artifactId> 
-			<version>1.0</version> <scope>system</scope> <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/cryptix-jce-api.jar</systemPath> 
-			</dependency> -->
-
-		<!-- <dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-core</artifactId> 
-			<version>2.0-rc1</version> </dependency> -->
 
 	</dependencies>
 
@@ -145,21 +141,6 @@
 			</plugin>
 
 
-			<!-- 把配置文件拷到和jar包同一个路径下 -->
-			<!-- 以utf-8编码拷贝配置文件，拷贝过程中是可以做变量替换的，也就是说你的配置文件可以是个模板，里面的${}所包含的内容是可以拷贝过程中替换的 -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
-				<version>2.4</version> <executions> <execution> <id>copy-resources</id> <phase>package</phase> 
-				<goals> <goal>copy-resources</goal> </goals> <configuration> <encoding>UTF-8</encoding> 
-				<outputDirectory>${project.build.directory}</outputDirectory> <resources> 
-				<resource> <directory>src/main/resources/</directory> <filtering>true</filtering> 
-				</resource> </resources> </configuration> </execution> </executions> </plugin> -->
-			<!-- 打jar包时需要把配置文件给排除在外 -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
-				<version>2.4</version> <executions> <execution> <phase>package</phase> <goals> 
-				<goal>jar</goal> </goals> <configuration> <archive> <manifest> <addClasspath>true</addClasspath> 
-				<classpathPrefix>lib/</classpathPrefix> <mainClass>com.garfield.gui.Main</mainClass> 
-				</manifest> </archive> <classifier>lib</classifier> </configuration> </execution> 
-				</executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -180,12 +161,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
-				<version>2.2</version> <configuration> <descriptors> <descriptor>/assembly.xml</descriptor> 
-				</descriptors> </configuration> <executions> <execution> <id>make-assembly</id> 
-				<phase>package</phase> <goals> <goal>single</goal> </goals> </execution> 
-				</executions> </plugin> -->
 		</plugins>
 
 
