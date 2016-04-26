@@ -29,3 +29,11 @@
 
 1. 有跳转的处理，比如`request.forward()`跳转或者`response.sendRedirct()`跳转
 2. 无跳转处理，数据格式统一为json。返回的json格式按照提供的适配器中指定的格式返回。
+
+
+### 有关jsonapi的资料
+
+1. [json-api-zh_CN](https://github.com/justjavac/json-api-zh_CN/blob/gh-pages/examples/index.md)
+2. [Node.js实现jsonapi](http://fortunejs.com/)
+3. [ember-json-api](https://github.com/kurko/ember-json-api)
+4. [emberfire实现](https://github.com/firebase/emberfire)
