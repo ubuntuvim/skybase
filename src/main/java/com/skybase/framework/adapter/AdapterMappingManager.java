@@ -11,6 +11,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.skybase.framework.adapter.AdapterMapping;
+
 /**
  * 读取adapters.xml并把每个子adapter元素转为Adapter对象
  * @author ubuntuvim
