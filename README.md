@@ -44,4 +44,8 @@
 
 **数据库使用MongoDB。**
 
+有关MongoDB与Firebase的使用介绍
 
+1. [firebase迁移到MongoDB+node.js](http://thejackalofjavascript.com/re-architecting-a-firebase-app-in-node/)
+2. [构建测试数据](http://www.betterpixels.co.uk/projects/2015/05/09/mock-up-your-rest-api-with-json-server/)
+3. []()
