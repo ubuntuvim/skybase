@@ -37,3 +37,16 @@
 2. [Node.js实现jsonapi](http://fortunejs.com/)
 3. [ember-json-api](https://github.com/kurko/ember-json-api)
 4. [emberfire实现](https://github.com/firebase/emberfire)
+
+在前端和数据库中间应该需要一层格式转换层，或者不需要，如果可以直接把符合jsonapi格式的数据直接保存数据库。
+
+**数据库**
+
+**数据库使用MongoDB。**
+
+有关MongoDB与Firebase的使用介绍
+
+1. [firebase迁移到MongoDB+node.js](http://thejackalofjavascript.com/re-architecting-a-firebase-app-in-node/)
+2. [构建测试数据](http://www.betterpixels.co.uk/projects/2015/05/09/mock-up-your-rest-api-with-json-server/)
+3. []()
+
