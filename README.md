@@ -40,6 +40,11 @@
 
 在前端和数据库中间应该需要一层格式转换层，或者不需要，如果可以直接把符合jsonapi格式的数据直接保存数据库。
 
+### java jsonapi处理组件
+
+对与如何使用java（servlet）格式化交互到数据为jsonapi规范数据可以参考、使用[katharsis](http://katharsis.io)。katharsis提供完整到处理方案。
+
+
 ### 数据库
 
 **数据库使用MongoDB。**
