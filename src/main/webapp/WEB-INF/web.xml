@@ -61,4 +61,23 @@
 		<servlet-name>JsonInterruptorAction</servlet-name>
 		<url-pattern>*.jsonp</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description>jsonapi转换适配器</description>
+		<display-name>JsonApiServlet</display-name>
+		<servlet-name>JsonApiServlet</servlet-name>
+		<servlet-class>com.skybase.framework.servlet.JsonApiServlet</servlet-class>
+		<init-param>
+			<description>jsonapi连接url配置</description>
+			<param-name>katharsis.config.core.resource.domain</param-name>
+			<param-value>http://localhost:8088</param-value>
+		</init-param>
+		<init-param>
+			<param-name>katharsis.config.core.resource.package</param-name>
+			<param-value>io.katharsis.servlet.resource</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JsonApiServlet</servlet-name>
+		<url-pattern>/api/v1/*</url-pattern>
+	</servlet-mapping>
 </web-app>

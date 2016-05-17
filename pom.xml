@@ -31,13 +31,13 @@
 			<version>5.1.38</version>
 		</dependency>
 		
+		<!-- http://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.2</version>
 		</dependency>
 
-		
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -95,6 +95,23 @@
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-compiler-javac</artifactId>
 			<version>1.8.1</version>
+		</dependency>
+
+		<!-- 加入JsonApi转换插件 -->
+		<dependency>
+			<groupId>io.katharsis</groupId>
+			<artifactId>katharsis-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>io.katharsis</groupId>
+			<artifactId>katharsis-servlet</artifactId>
+			<version>2.3.0</version>
 		</dependency>
 
 	</dependencies>
