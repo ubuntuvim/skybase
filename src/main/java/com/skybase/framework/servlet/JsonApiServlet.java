@@ -25,12 +25,12 @@ public class JsonApiServlet extends AbstractKatharsisServlet {
 	private String resourceSearchPackage;
 	private String resourceDefaultDomain;
 	
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogUtil.info("请求进入JsonApiServlet GET {0}", request.getRequestURI());
+		super.doGet(request, response);
 	}
 
 	/**
@@ -38,6 +38,7 @@ public class JsonApiServlet extends AbstractKatharsisServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogUtil.info("请求进入JsonApiServlet POST {0}", request.getRequestURI());
+		super.doPost(request, response);
 	}
 
 	@Override

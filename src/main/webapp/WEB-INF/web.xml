@@ -69,11 +69,12 @@
 		<init-param>
 			<description>jsonapi连接url配置</description>
 			<param-name>katharsis.config.core.resource.domain</param-name>
-			<param-value>http://localhost:8088</param-value>
+			<param-value>http://localhost:8080</param-value>
 		</init-param>
 		<init-param>
 			<param-name>katharsis.config.core.resource.package</param-name>
-			<param-value>io.katharsis.servlet.resource</param-value>
+			<!-- value的值为自己项目的domain包路径 -->
+			<param-value>com.skybase.domain</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

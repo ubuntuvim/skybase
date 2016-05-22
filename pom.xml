@@ -10,6 +10,14 @@
 	<name>skybase Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <morphia.version>0.111</morphia.version>
+        <mongo-driver.version>2.13.0</mongo-driver.version>
+        <commons-beantuils.version>1.9.2</commons-beantuils.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 	<dependencies>
 		<!--  Gson: Java to Json conversion -->
 	    <dependency>
@@ -35,8 +43,9 @@
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
-		    <version>3.2</version>
+		    <version>3.4</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -98,11 +107,7 @@
 		</dependency>
 
 		<!-- 加入JsonApi转换插件 -->
-		<dependency>
-			<groupId>io.katharsis</groupId>
-			<artifactId>katharsis-core</artifactId>
-			<version>2.3.0</version>
-		</dependency>
+		<!-- katharsis -->
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
@@ -111,14 +116,101 @@
 		<dependency>
 			<groupId>io.katharsis</groupId>
 			<artifactId>katharsis-servlet</artifactId>
-			<version>2.3.0</version>
+			<version>2.4.0</version>
+		</dependency>
+		
+		<!-- http://mvnrepository.com/artifact/io.katharsis/katharsis-core -->
+		<dependency>
+		    <groupId>io.katharsis</groupId>
+		    <artifactId>katharsis-core</artifactId>
+		    <version>2.4.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.katharsis</groupId>
+		    <artifactId>katharsis-rs</artifactId>
+		    <version>2.4.0</version>
+		</dependency>
+				
+		<!-- http://mvnrepository.com/artifact/com.hubspot/HorizonCore -->
+		<dependency>
+		    <groupId>com.hubspot</groupId>
+		    <artifactId>HorizonCore</artifactId>
+		    <version>0.0.24</version>
+		</dependency>
+				    
+		<!-- http://mvnrepository.com/artifact/com.hubspot.dropwizard/dropwizard-guice -->
+		<dependency>
+		    <groupId>com.hubspot.dropwizard</groupId>
+		    <artifactId>dropwizard-guice</artifactId>
+		    <version>0.8.4.0</version>
+		</dependency>
+							    
+		    
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <version>0.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hubspot.dropwizard</groupId>
+            <artifactId>dropwizard-guice</artifactId>
+            <version>0.8.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jackson</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jersey</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jetty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-lifecycle</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-servlets</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>${morphia.version}</version>
+        </dependency>
+        <!-- http://mvnrepository.com/artifact/io.dropwizard/dropwizard-validation -->
+	<dependency>
+	    <groupId>io.dropwizard</groupId>
+	    <artifactId>dropwizard-validation</artifactId>
+	    <version>0.9.2</version>
+	</dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo-driver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beantuils.version}</version>
+        </dependency>
+        
+        <dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>18.0</version>
 		</dependency>
 
 	</dependencies>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<build>
 		<finalName>skybase</finalName>
@@ -130,8 +222,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>  <!-- “编码 GBK 的不可映射字符”问题的解决 -->
 				</configuration>
 			</plugin>
@@ -156,8 +248,34 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
+	
+			<!-- katharsis -->
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>
+                                        io.katharsis.example.dropwizard.DropwizardService
+                                    </mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -178,6 +296,22 @@
 					</archive>
 				</configuration>
 			</plugin>
+			
+			<!-- 引入外部jar -->
+			<!-- <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <version>2.5.1</version>
+			    <configuration>
+			        <source>1.6</source>
+			        <target>1.6</target>
+			        <encoding>UTF-8</encoding>
+			        <compilerArguments>
+			            <extdirs>${project.basedir}/svnkit1.8</extdirs>
+			        </compilerArguments>
+			    </configuration>
+			</plugin> -->
+
 		</plugins>
 
 
